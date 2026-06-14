@@ -1,0 +1,11 @@
+codigo,nombre,creditos,semestre
+MAT101,Matemática I,4,1
+FIS101,Física I,4,1
+QUI101,Química I,3,1
+ESP101,Español I,3,1
+ING101,Inglés I,2,1
+PRO101,Programación I,3,2
+PRO102,Programación II,3,3
+BD101,Base de Datos I,3,4
+BD102,Base de Datos II,3,5
+RED101,Redes de Computadoras I,3,5

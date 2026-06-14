@@ -1,0 +1,72 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <style>
+    .csv-upload { max-width: 700px; margin: 20px 0; }
+    .csv-upload .form-row { padding: 12px 0; }
+    .csv-upload label { font-weight: 600; display: block; margin-bottom: 4px; }
+    .csv-upload input[type=file] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
+    .csv-upload .help { font-size: 12px; color: #666; margin-top: 4px; }
+    .csv-upload .submit-row { padding: 12px 0; }
+    .csv-upload .submit-row input { background: #003087; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+    .csv-upload .submit-row input:hover { background: #002266; }
+    .example-table { border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+    .example-table th, .example-table td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+    .example-table th { background: #f5f5f5; font-weight: 600; }
+  </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+  <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='pensums' %}">Pensums</a>
+    &rsaquo; <a href="{% url 'admin:pensums_carrera_changelist' %}">Carreras</a>
+    &rsaquo; Importar CSV: {{ carrera.nombre }}
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    <h1>Importar materias desde CSV</h1>
+    <p>Carrera: <strong>{{ carrera.nombre }}</strong></p>
+
+    <div class="csv-upload">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+          <label for="csv_file">Archivo CSV</label>
+          <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
+          <div class="help">Selecciona un archivo CSV con las columnas: <strong>codigo, nombre, creditos, semestre</strong></div>
+        </div>
+        <div class="submit-row">
+          <input type="submit" value="Importar materias">
+          <a href="{% url 'admin:pensums_carrera_changelist' %}" style="margin-left:12px;">Cancelar</a>
+        </div>
+      </form>
+    </div>
+
+    <h2>Formato del CSV</h2>
+    <p>El archivo debe tener una fila de cabecera con estos nombres de columna:</p>
+    <table class="example-table">
+      <thead><tr><th>codigo</th><th>nombre</th><th>creditos</th><th>semestre</th></tr></thead>
+      <tbody>
+        <tr><td>MAT101</td><td>Matemática I</td><td>4</td><td>1</td></tr>
+        <tr><td>FIS101</td><td>Física I</td><td>4</td><td>1</td></tr>
+        <tr><td>PRO101</td><td>Programación I</td><td>3</td><td>2</td></tr>
+        <tr><td>BD101</td><td>Base de Datos I</td><td>3</td><td>4</td></tr>
+      </tbody>
+    </table>
+
+    <h3>¿Cómo crear el CSV?</h3>
+    <ol>
+      <li>Abre el pensum en Excel, LibreOffice Calc o Google Sheets</li>
+      <li>Crea 4 columnas: <strong>codigo</strong> | <strong>nombre</strong> | <strong>creditos</strong> | <strong>semestre</strong></li>
+      <li>Llena los datos de cada materia (una por fila)</li>
+      <li>Exporta/Guarda como <strong>CSV (separado por comas)</strong></li>
+      <li>Súbelo aquí</li>
+    </ol>
+    <p style="color:#C8102E;font-size:13px;">⚠️ Si una materia ya existe con el mismo código, se actualizarán sus datos.</p>
+  </div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "pensums/base.html" %}
+
+{% block title %}{{ carrera.nombre }} - UTESA Pensums{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-utesa-green to-green-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-8 md:py-10">
+        <nav class="text-xs md:text-sm text-green-200 mb-2 truncate">
+            <a href="{% url 'pensums:inicio' %}" class="hover:text-white transition">Inicio</a>
+            <span class="mx-1.5">&rsaquo;</span>
+            <a href="{% url 'pensums:recinto' recinto.slug %}" class="hover:text-white transition whitespace-nowrap">{{ recinto.nombre }}</a>
+            <span class="mx-1.5">&rsaquo;</span>
+            <span class="text-white">{{ carrera.nombre }}</span>
+        </nav>
+        <h1 class="text-2xl md:text-4xl font-bold leading-tight">{{ carrera.nombre }}</h1>
+        <p class="text-green-200 mt-1 text-sm md:text-base">{{ recinto.nombre }}</p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-3 md:px-4 py-6 md:py-8">
+    {% if semestres %}
+        {% for semestre, materias in semestres.items %}
+            <div class="mb-6 md:mb-10">
+                <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4 flex items-center">
+                    <span class="bg-utesa-green text-white text-xs md:text-sm font-bold px-2.5 md:px-3 py-1 rounded-full mr-2 md:mr-3">
+                        {{ semestre }}°
+                    </span>
+                    Cuatrimestre {{ semestre }}
+                </h2>
+
+                {% comment %} Desktop: tabla {% endcomment %}
+                <div class="hidden md:block overflow-x-auto rounded-lg shadow">
+                    <table class="min-w-full bg-white divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Materia</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Créd.</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Pre-requisitos</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            {% for materia in materias %}
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-700">{{ materia.codigo }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ materia.nombre }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-600">{{ materia.creditos }}</td>
+                                    <td class="px-6 py-4 text-sm text-center">
+                                        {% with pre=materia.prerrequisitos.all co=materia.corequisitos.all %}
+                                            {% if pre or co %}
+                                                <div class="text-xs leading-relaxed">
+                                                    {% if pre %}
+                                                        <span class="text-gray-400">Pre:</span>
+                                                        {% for p in pre %}<span class="text-utesa-green font-mono font-medium">{{ p.codigo }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
+                                                    {% endif %}
+                                                    {% if co %}
+                                                        {% if pre %}<br>{% endif %}
+                                                        <span class="text-gray-400">Co:</span>
+                                                        {% for c in co %}<span class="text-utesa-red font-mono font-medium">{{ c.codigo }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            {% else %}
+                                                <span class="text-gray-300">—</span>
+                                            {% endif %}
+                                        {% endwith %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                                        <a href="{% url 'pensums:materia' recinto.slug carrera.slug materia.pk %}"
+                                           class="inline-flex items-center px-3 py-1.5 bg-utesa-green text-white text-xs font-medium rounded-md hover:bg-green-700 transition">
+                                            Foro
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% comment %} Mobile: tarjetas {% endcomment %}
+                <div class="md:hidden space-y-2">
+                    {% for materia in materias %}
+                        <a href="{% url 'pensums:materia' recinto.slug carrera.slug materia.pk %}"
+                           class="block bg-white rounded-lg shadow-sm border border-gray-100 p-3 active:bg-gray-50 transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center gap-1.5 mb-0.5">
+                                        <span class="text-xs font-mono text-utesa-green font-semibold">{{ materia.codigo }}</span>
+                                        <span class="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">{{ materia.creditos }} cr.</span>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-900 leading-tight">{{ materia.nombre }}</p>
+                                    {% with pre=materia.prerrequisitos.all co=materia.corequisitos.all %}
+                                        {% if pre or co %}
+                                            <div class="text-xs text-gray-500 mt-1 leading-relaxed">
+                                                {% if pre %}
+                                                    <span class="text-gray-400">Pre:</span>
+                                                    {% for p in pre %}<span class="text-utesa-green font-mono">{{ p.codigo }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
+                                                {% endif %}
+                                                {% if co %}
+                                                    {% if pre %}<span class="mx-0.5">·</span>{% endif %}
+                                                    <span class="text-gray-400">Co:</span>
+                                                    {% for c in co %}<span class="text-utesa-red font-mono">{{ c.codigo }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% endwith %}
+                                </div>
+                                <span class="shrink-0 text-xs text-utesa-green font-medium mt-0.5">Ver &rarr;</span>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="bg-white rounded-lg shadow p-4 md:p-6 text-center">
+            <p class="text-base md:text-lg text-gray-700">
+                <span class="font-bold">Total de créditos:</span>
+                <span class="text-utesa-green font-bold text-lg md:text-xl ml-1">{{ total_creditos }}</span>
+            </p>
+        </div>
+    {% else %}
+        <div class="text-center py-12">
+            <p class="text-gray-500 text-lg">No hay materias registradas para esta carrera.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
