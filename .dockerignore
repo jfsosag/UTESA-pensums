@@ -1,0 +1,15 @@
+.env
+.venv
+venv
+__pycache__
+*.pyc
+db.sqlite3
+.git
+.gitignore
+*.md
+.DS_Store
+pensum pdf/
+pensum csv/
+export_data.sh
+import_data_postgres.sh
+data_export.json

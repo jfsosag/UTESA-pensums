@@ -13,3 +13,4 @@ build/
 .DS_Store
 *.log
 data_export.json
+data_export.json

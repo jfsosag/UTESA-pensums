@@ -14,6 +14,13 @@ SECRET_KEY = config("SECRET_KEY", default="django-insecure-change-me-in-producti
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
+
+# Auto-detect Fly.io hostname
+FLY_APP_NAME = config("FLY_APP_NAME", default=None)
+if FLY_APP_NAME:
+    ALLOWED_HOSTS.append(f"{FLY_APP_NAME}.fly.dev")
+
+# Auto-detect Railway hostname
 RAILWAY_PUBLIC_DOMAIN = config("RAILWAY_PUBLIC_DOMAIN", default=None)
 if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
