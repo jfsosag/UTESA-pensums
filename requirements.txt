@@ -1,0 +1,8 @@
+django>=5.0,<5.2
+psycopg2-binary
+python-decouple
+pillow
+django-import-export
+gunicorn
+whitenoise
+dj-database-url
