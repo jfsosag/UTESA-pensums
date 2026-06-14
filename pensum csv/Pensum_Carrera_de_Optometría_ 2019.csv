@@ -54,6 +54,6 @@ OPT-407,Clínica de Visión Subnormal,3,10,OPT-402
 OPT-506,Clínica de Cuidado Ocular,3,10,OPT-406
 SOC-118,Metodología de la,3,10,SOC-116
 ADM-900,Formación de Emprendedores,4,10,
-DPG-010,Anteproyecto de Tesis,4,10,SOC-018
-OPT-606,Clínica de Cuidado Ocular III,3,10,OPT-506
-DPG-020,Proyecto de Grado,6,10,DPG-010
+DPG-010,Anteproyecto de Tesis,4,11,SOC-018
+OPT-606,Clínica de Cuidado Ocular III,3,11,OPT-506
+DPG-020,Proyecto de Grado,6,12,DPG-010

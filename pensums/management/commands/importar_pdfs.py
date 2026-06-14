@@ -18,21 +18,32 @@ from django.core.management.base import BaseCommand, CommandError
 from django.utils.text import slugify
 from pensums.models import Carrera
 
-PDF_DIR = Path("/home/jsosa/utesa-pensums/pensum pdf")
-CSV_DIR = Path("/home/jsosa/utesa-pensums/pensum csv")
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+PDF_DIR = BASE_DIR / "pensum pdf"
+CSV_DIR = BASE_DIR / "pensum csv"
 
 SEMESTRE_MAP = {
     "PRIMER": "1", "SEGUNDO": "2", "TERCER": "3", "CUARTO": "4",
     "QUINTO": "5", "SEXTO": "6", "SÉPTIMO": "7", "SEPTIMO": "7",
     "OCTAVO": "8", "NOVENO": "9", "DÉCIMO": "10", "DECIMO": "10",
-    "UNDÉCIMO": "11", "UNDECIMO": "11", "DUODÉCIMO": "12", "DUODECIMO": "12",
+    "DÉCIMO PRIMER": "11", "DECIMO PRIMER": "11",
+    "DÉCIMO SEGUNDO": "12", "DECIMO SEGUNDO": "12",
 }
+
+# Orden de búsqueda: patrones más largos primero para evitar
+# que "DÉCIMO" coincida antes que "DÉCIMO PRIMER"
+SEMESTRE_PATRONES = sorted(SEMESTRE_MAP.keys(), key=len, reverse=True)
 
 SKIP_WORDS = {"CLAVE", "NOMBRE", "ASIGNATURA", "HT", "HP", "TH", "CRED",
               "PRERREQUISITOS", "TOTAL", "SUB", "ELECTIVA", "ELECTIVAS",
               "PASANTÍA", "PASANTIA"}
 
 UNIQUE_PDFS = {}
+
+# Mapeo de PDFs cuyo nombre NO coincide con la carrera que contienen
+PDF_STEM_A_SLUG = {
+    "Pensúm - Enfermería 2021 (1)": "contaduria-publica",
+}
 
 # Mapeo explícito de nombre de PDF → slug de carrera
 PDF_A_SLUG = {
@@ -59,8 +70,16 @@ PDF_A_SLUG = {
     "Administración de Empresas": "administracion-de-empresas",
     "Administracion de Empresas": "administracion-de-empresas",
     "Enfermería": "enfermeria",
+    "Enfermeria": "enfermeria",
     "Ing. Electrica": "ingenieria-electrica",
     "Ingeniería Eléctrica": "ingenieria-electrica",
+    "Bioanalisis": "bioanalisis",
+    "Odontologia": "odontologia",
+    "Medicina": "medicina",
+    "Nutrición Humana": "nutricion-humana-y-dietetica",
+    "Comunicación Social": "comunicacion-social",
+    "Contaduría Pública": "contaduria-publica",
+    "Contaduria Publica": "contaduria-publica",
 }
 
 
@@ -91,6 +110,9 @@ def pdf_to_text(pdf_path):
 
 def guess_carrera_slug(pdf_name):
     """Busca el slug en el mapeo, o intenta adivinarlo."""
+    # Primero revisar si el nombre exacto del PDF tiene override
+    if pdf_name in PDF_STEM_A_SLUG:
+        return PDF_STEM_A_SLUG[pdf_name]
     for key, slug in PDF_A_SLUG.items():
         if key.lower() in pdf_name.lower():
             return slug
@@ -144,11 +166,14 @@ def parse_standard(text):
     materias = []
     semestre_actual = None
 
+    # Patrón dinámico: busca coincidencias de múltiples palabras primero
+    pattern = r"(" + "|".join(SEMESTRE_PATRONES) + r")\s+CUATRIMESTRE"
+
     for line in text.split("\n"):
         line = line.strip()
 
         # Detectar encabezado de semestre
-        sem_match = re.match(r"(PRIMER|SEGUNDO|TERCER|CUARTO|QUINTO|SEXTO|SÉPTIMO|SEPTIMO|OCTAVO|NOVENO|DÉCIMO|DECIMO|UNDÉCIMO|UNDECIMO|DUODÉCIMO|DUODECIMO)\s+CUATRIMESTRE", line, re.IGNORECASE)
+        sem_match = re.match(pattern, line, re.IGNORECASE)
         if sem_match:
             semestre_actual = SEMESTRE_MAP.get(sem_match.group(1).upper())
             continue
@@ -188,9 +213,11 @@ def parse_optometria(text):
     materias = []
     semestre_actual = None
 
+    pattern = r"(" + "|".join(SEMESTRE_PATRONES) + r")\s+CUATRIMESTRE"
+
     for line in text.split("\n"):
         line = line.strip()
-        sem_match = re.match(r"(PRIMER|SEGUNDO|TERCER|CUARTO|QUINTO|SEXTO|SÉPTIMO|SEPTIMO|OCTAVO|NOVENO|DÉCIMO|DECIMO)\s+CUATRIMESTRE", line, re.IGNORECASE)
+        sem_match = re.match(pattern, line, re.IGNORECASE)
         if sem_match:
             semestre_actual = SEMESTRE_MAP.get(sem_match.group(1).upper())
             continue
@@ -224,9 +251,11 @@ def parse_viejo(text):
     materias = []
     semestre_actual = None
 
+    pattern = r"(" + "|".join(SEMESTRE_PATRONES) + r")\s+CUATRIMESTRE"
+
     for line in text.split("\n"):
         line = line.strip()
-        sem_match = re.match(r"(PRIMER|SEGUNDO|TERCER|CUARTO|QUINTO|SEXTO|SÉPTIMO|SEPTIMO|OCTAVO|NOVENO|DÉCIMO|DECIMO)\s+CUATRIMESTRE", line, re.IGNORECASE)
+        sem_match = re.match(pattern, line, re.IGNORECASE)
         if sem_match:
             semestre_actual = SEMESTRE_MAP.get(sem_match.group(1).upper())
             continue

@@ -68,7 +68,7 @@ class Command(BaseCommand):
 
                     if semestre not in [str(i) for i in range(1, 13)]:
                         errores.append(
-                            f"Fila {fila_num}: semestre inválido '{row['semestre']}' (debe ser 1-10)"
+                            f"Fila {fila_num}: semestre inválido '{row['semestre']}' (debe ser 1-12)"
                         )
                         continue
 
