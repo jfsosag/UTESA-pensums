@@ -1,0 +1,13 @@
+<div class="bg-white rounded-lg shadow p-4 border-l-4 border-utesa-blue" id="comentario-{{ comentario.pk }}">
+    <div class="flex items-start justify-between gap-2">
+        <div class="min-w-0">
+            <span class="font-semibold text-gray-800 text-sm md:text-base">{{ comentario.nombre_profesor }}</span>
+            <span class="text-xs md:text-sm text-gray-500 ml-1.5">Grupo {{ comentario.numero_grupo }}</span>
+        </div>
+        <span class="text-xs text-gray-400 shrink-0">{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</span>
+    </div>
+    <p class="mt-2 text-sm md:text-base text-gray-700">{{ comentario.comentario }}</p>
+    {% if not comentario.activo %}
+        <p class="text-xs text-yellow-600 mt-1 italic">Pendiente de moderación</p>
+    {% endif %}
+</div>

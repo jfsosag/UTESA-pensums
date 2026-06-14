@@ -1,0 +1,98 @@
+[
+  {
+    "model": "pensums.recinto",
+    "pk": 1,
+    "fields": {
+      "nombre": "Recinto Santiago",
+      "slug": "recinto-santiago",
+      "descripcion": "Sede principal de UTESA, ubicada en la ciudad de Santiago de los Caballeros.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 2,
+    "fields": {
+      "nombre": "Recinto Santo Domingo",
+      "slug": "recinto-santo-domingo",
+      "descripcion": "Recinto ubicado en Santo Domingo, Distrito Nacional.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 3,
+    "fields": {
+      "nombre": "Recinto La Vega",
+      "slug": "recinto-la-vega",
+      "descripcion": "Recinto ubicado en La Vega, provincia de La Vega.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 4,
+    "fields": {
+      "nombre": "Recinto Mao",
+      "slug": "recinto-mao",
+      "descripcion": "Recinto ubicado en Mao, provincia Valverde.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 5,
+    "fields": {
+      "nombre": "Recinto San Francisco de Macorís",
+      "slug": "recinto-san-francisco-de-macoris",
+      "descripcion": "Recinto ubicado en San Francisco de Macorís, provincia Duarte.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 6,
+    "fields": {
+      "nombre": "Recinto Nagua",
+      "slug": "recinto-nagua",
+      "descripcion": "Recinto ubicado en Nagua, provincia María Trinidad Sánchez.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 7,
+    "fields": {
+      "nombre": "Recinto Barahona",
+      "slug": "recinto-barahona",
+      "descripcion": "Recinto ubicado en Barahona, provincia Barahona.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "pensums.recinto",
+    "pk": 8,
+    "fields": {
+      "nombre": "Recinto Puerto Plata",
+      "slug": "recinto-puerto-plata",
+      "descripcion": "Recinto ubicado en San Felipe de Puerto Plata, provincia Puerto Plata.",
+      "portada": null,
+      "activo": true,
+      "fecha_creacion": "2024-01-01T00:00:00Z"
+    }
+  }
+]

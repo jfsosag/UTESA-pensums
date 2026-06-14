@@ -1,0 +1,89 @@
+{% extends "pensums/base.html" %}
+
+{% block title %}{{ materia.codigo }} {{ materia.nombre }} - UTESA Pensums{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-utesa-green to-green-800 text-white">
+    <div class="max-w-4xl mx-auto px-4 py-8 md:py-10">
+        <nav class="text-xs md:text-sm text-green-200 mb-2 truncate">
+            <a href="{% url 'pensums:inicio' %}" class="hover:text-white transition">Inicio</a>
+            <span class="mx-1.5">&rsaquo;</span>
+            <a href="{% url 'pensums:recinto' recinto.slug %}" class="hover:text-white transition whitespace-nowrap">{{ recinto.nombre }}</a>
+            <span class="mx-1.5">&rsaquo;</span>
+            <a href="{% url 'pensums:carrera' recinto.slug materia.carrera.slug %}" class="hover:text-white transition whitespace-nowrap">{{ materia.carrera.nombre|truncatechars:30 }}</a>
+            <span class="mx-1.5">&rsaquo;</span>
+            <span class="text-white">{{ materia.codigo }}</span>
+        </nav>
+        <h1 class="text-xl md:text-3xl font-bold leading-tight">{{ materia.nombre }}</h1>
+        <div class="flex flex-wrap gap-3 md:gap-4 mt-2 text-green-200 text-xs md:text-sm">
+            <span>Código: <strong class="text-white">{{ materia.codigo }}</strong></span>
+            <span>Créditos: <strong class="text-white">{{ materia.creditos }}</strong></span>
+            <span>Semestre: <strong class="text-white">{{ materia.semestre }}°</strong></span>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 py-6 md:py-8">
+    <div id="comentarios-list" class="space-y-3 md:space-y-4">
+        <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">
+            Foro de la materia
+            <span class="text-sm font-normal text-gray-500">({{ comentarios|length }} comentario{{ comentarios|length|pluralize:"s" }})</span>
+        </h2>
+
+        {% if comentarios %}
+            {% for comentario in comentarios %}
+                {% include "pensums/_comentario.html" %}
+            {% endfor %}
+        {% else %}
+            <div class="bg-white rounded-lg shadow p-6 md:p-8 text-center">
+                <p class="text-gray-500 text-base md:text-lg">No hay comentarios aún.</p>
+                <p class="text-gray-400 text-sm mt-1">¡Sé el primero en compartir tu experiencia sobre esta materia!</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mt-6 md:mt-8 bg-white rounded-lg shadow p-4 md:p-6">
+        <h3 class="text-base md:text-lg font-bold text-gray-800 mb-3 md:mb-4">Agregar comentario</h3>
+        <form hx-post="{% url 'pensums:crear_comentario' recinto.slug materia.carrera.slug materia.pk %}"
+              hx-target="#comentarios-list"
+              hx-swap="beforeend"
+              hx-on::after-request="this.reset()"
+              class="space-y-3 md:space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de grupo</label>
+                    <input type="number" name="numero_grupo" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-utesa-green focus:border-utesa-green text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del profesor/a</label>
+                    <input type="text" name="nombre_profesor" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-utesa-green focus:border-utesa-green text-sm">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Comentario</label>
+                <textarea name="comentario" rows="4" required
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-utesa-green focus:border-utesa-green text-sm"></textarea>
+            </div>
+            <button type="submit"
+                    class="w-full sm:w-auto bg-utesa-green text-white px-6 py-2.5 rounded-md font-medium hover:bg-green-700 transition text-sm">
+                Enviar comentario
+            </button>
+            <p class="text-xs text-gray-400 mt-1.5">Tu comentario será visible tras ser moderado por un administrador.</p>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        if (evt.detail.successful && evt.detail.pathInfo.requestPath.includes('/comentar/')) {
+            const emptyMsg = document.querySelector('#comentarios-list .text-center');
+            if (emptyMsg) emptyMsg.remove();
+        }
+    });
+</script>
+{% endblock %}

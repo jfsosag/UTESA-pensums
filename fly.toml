@@ -1,0 +1,23 @@
+# fly.toml - Fly.io configuration
+app = "utesa-pensums"
+primary_region = "iad"  # cambiar a tu región preferida: mia, sjc, gru, etc.
+
+[build]
+  # Usa el Dockerfile del proyecto
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"  # se duerme si no hay tráfico (free tier)
+  auto_start_machines = true   # se despierta al recibir visita
+  min_machines_running = 0
+  max_machines_running = 1
+
+[[statics]]
+  guest_path = "/app/staticfiles"
+  url_prefix = "/static"
+
+[[statics]]
+  guest_path = "/app/media"
+  url_prefix = "/media"

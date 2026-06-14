@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UTESA Pensums{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utesa: {
+                            green: '#1B5E20',
+                            red: '#C8102E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <style>
+        .bg-utesa-green { background-color: #1B5E20; }
+        .bg-utesa-red { background-color: #C8102E; }
+        .text-utesa-green { color: #1B5E20; }
+        .text-utesa-red { color: #C8102E; }
+        .border-utesa-green { border-color: #1B5E20; }
+        .from-utesa-green { --tw-gradient-from: #1B5E20; }
+        .hover\:bg-utesa-green-dark:hover { background-color: #0d3b11; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <nav class="bg-gradient-to-r from-utesa-green to-green-800 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-14 md:h-16">
+                <a href="{% url 'pensums:inicio' %}" class="flex items-center space-x-1.5 md:space-x-2 min-w-0">
+                    <span class="text-xl md:text-2xl font-bold tracking-tight">UTESA</span>
+                    <span class="text-base md:text-lg font-light hidden sm:inline">Pensums</span>
+                </a>
+                <div class="flex items-center space-x-1 md:space-x-4">
+                    <a href="{% url 'pensums:inicio' %}" class="px-2.5 md:px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium hover:bg-green-700 transition">Inicio</a>
+                    <a href="/admin/" class="px-2.5 md:px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium hover:bg-green-700 transition">Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gradient-to-r from-utesa-green to-green-800 text-white py-4 md:py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs md:text-sm">&copy; {% now "Y" %} Universidad Tecnológica de Santiago (UTESA). Todos los derechos reservados.</p>
+            <p class="text-xs text-gray-300 mt-1">Plataforma de Consulta de Pensums</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

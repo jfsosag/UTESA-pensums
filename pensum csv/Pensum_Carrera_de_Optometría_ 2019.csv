@@ -1,0 +1,59 @@
+codigo,nombre,creditos,semestre,prerrequisitos
+MED-100,Biología I,3,1,MED-010
+MED-010,Laboratorio de Biología I,1,1,MED-100
+ORI-112,Orientación Universitaria,2,1,
+ESP-095,Lengua Española Básica,4,1,
+SOC-224,Introducción a las Ciencias,2,1,
+MAT-095,Matemática Básica,4,1,
+MED-750,Química Inorgánica,3,1,MED-755
+MED-755,Laboratorio de Química Inorgánica,1,1,MED-750
+MED-033,Salud y Conducta Humana,3,2,
+MAT-190,Física I,4,2,MAT191
+MAT-191,Laboratorio de Física I,1,2,MAT190
+SOC-116,Metodología de la Investigación,4,2,
+ING-100,Inglés I,4,2,
+SOC-180,Introducción a la Filosofía,3,2,
+INF-103,Ofimática,2,2,
+MED-770,Química Orgánica,3,3,MED-750
+MED-774,Laboratorio de Química Orgánica,1,3,MED-770
+MED-983,Salud Colectiva I,4,3,MED-033
+ING-110,Inglés II,4,3,ING-100
+SIC-102,Introducción a la Psicología,4,3,
+SOC-170,Historia Social Dominicana,3,3,
+SOC-150,Educación para el Medio,2,4,
+CFI-135,Óptica Geométrica y Física y su,3,4,MAT-190
+MED-662,Epidemiología,3,4,MED-033
+MED-984,Salud Colectiva II,4,4,MED-983
+MAT-184,Matemática Aplicada,3,4,MAT-095
+OPT-201,Óptica Oftálmica y su,4,5,CFI-135
+MED-190,Bioquímica y su Laboratorio,4,5,MED-770
+MED-170,Anatomía I,3,5,MED-100
+MED-232,Fisiología I,4,5,
+MED-322,Farmacología,3,6,MED-190
+MED-302,Patología General,4,6,MED-170
+CFI-136,Óptica Fisiológica y su,4,6,MED-170
+MED-270,Microbiología y su Laboratorio,4,6,MED-100
+CFI-137,Anatomía y Fisiología Ocular,4,6,MED-170
+OPT-301,Cuidado Ocular Primario I,3,7,OPT-201
+OPT-202,Óptica Oftálmica y su,3,7,OPT-201
+CFI-138,Farmacología Ocular,3,7,MED-322
+OPT-303,Visión Binocular y sus,3,7,OPT-201
+MED-303,Patología Ocular,3,7,MED-302
+SOC-700,Cultura y Civismo,2,7,
+SAP-209,Bio-Ética,3,8,MED-100
+OPT-305,Lentes de Contacto I,3,8,OPT-202
+OPT-304,Optometría pediátrica y,3,8,OPT-301
+OPT-401,Cuidado Ocular Primario II,4,8,OPT-301
+OPT-402,Baja Visión,3,8,OPT-303
+LET-900,Curso de Redacción,4,9,ESP-095
+OPT-405,Lentes de Contacto II,3,9,OPT-305
+MED-099,Gerencia y Administración de,3,9,
+OPT-406,Clínica de Cuidado Ocular,3,9,OPT-401
+MED-988,Psicología Médica,3,9,SIC-102
+OPT-407,Clínica de Visión Subnormal,3,10,OPT-402
+OPT-506,Clínica de Cuidado Ocular,3,10,OPT-406
+SOC-118,Metodología de la,3,10,SOC-116
+ADM-900,Formación de Emprendedores,4,10,
+DPG-010,Anteproyecto de Tesis,4,10,SOC-018
+OPT-606,Clínica de Cuidado Ocular III,3,10,OPT-506
+DPG-020,Proyecto de Grado,6,10,DPG-010

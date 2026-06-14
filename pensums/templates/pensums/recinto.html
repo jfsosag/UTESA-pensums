@@ -1,0 +1,49 @@
+{% extends "pensums/base.html" %}
+
+{% block title %}{{ recinto.nombre }} - UTESA Pensums{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-utesa-green to-green-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-8 md:py-10">
+        <a href="{% url 'pensums:inicio' %}" class="text-green-200 hover:text-white text-xs md:text-sm transition inline-flex items-center gap-1">&larr; Volver a recintos</a>
+        <h1 class="text-2xl md:text-4xl font-bold mt-2 leading-tight">{{ recinto.nombre }}</h1>
+        {% if recinto.descripcion %}
+            <p class="text-green-200 mt-2 text-sm md:text-base max-w-3xl">{{ recinto.descripcion }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+    {% with carreras=recinto.carreras.all %}
+        {% if carreras %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {% for carrera in carreras %}
+                    {% if carrera.activo %}
+                        <a href="{% url 'pensums:carrera' recinto.slug carrera.slug %}"
+                           class="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-utesa-green active:scale-[0.98]">
+                            <div class="p-4 sm:p-6">
+                                <h3 class="text-lg sm:text-xl font-semibold text-gray-800 group-hover:text-utesa-green transition leading-tight">
+                                    {{ carrera.nombre }}
+                                </h3>
+                                {% if carrera.codigo %}
+                                    <p class="text-xs sm:text-sm text-utesa-green font-medium mt-1">Código: {{ carrera.codigo }}</p>
+                                {% endif %}
+                                <p class="text-xs sm:text-sm text-gray-500 mt-1.5 sm:mt-2">
+                                    {{ carrera.cantidad_materias }} materia{{ carrera.cantidad_materias|pluralize:"s" }}
+                                </p>
+                                <div class="mt-3 sm:mt-4 flex justify-end">
+                                    <span class="text-utesa-green text-xs sm:text-sm font-medium group-hover:underline">Ver pensum &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-12">
+                <p class="text-gray-500 text-lg">No hay carreras disponibles en este recinto.</p>
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}
